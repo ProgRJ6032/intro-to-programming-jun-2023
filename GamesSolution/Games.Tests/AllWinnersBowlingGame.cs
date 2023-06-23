@@ -1,13 +1,12 @@
 ﻿
 namespace Games.Tests;
-
 public class AllWinnersBowlingGame
 {
     private readonly List<Player> _expectedWinners;
     private readonly List<Player> _expectedLosers;
     private readonly ScoreReport _report;
 
-        public AllWinnersBowlingGame()
+    public AllWinnersBowlingGame()
     {
         // Given 
         var game = new BowlingGame();
@@ -16,16 +15,10 @@ public class AllWinnersBowlingGame
         game.AddPlayer(p1.Name, p1.score);
         game.AddPlayer(p2.Name, p2.score);
 
-
-
-        _expectedWinners = new List<Player> { p1, p2 };
-        _expectedLosers = new(); //new List<Player>() { };
-
-
+        _expectedWinners = new List<Player> { p1,p2 };
+        _expectedLosers = new();
 
         var scorer = new GameScorer();
-
-
 
         // When I ask for the score
         _report = scorer.GenerateScoreReportFor(game);

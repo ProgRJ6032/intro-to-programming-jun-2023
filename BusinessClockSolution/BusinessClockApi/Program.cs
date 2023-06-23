@@ -1,4 +1,7 @@
+
+
 using BusinessClockApi.Models;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,7 +24,7 @@ app.MapGet("/status", () =>
     var response = new GetStatusResponse
     {
         Open = true,
-
+       
     };
     return Results.Ok(response);
 });

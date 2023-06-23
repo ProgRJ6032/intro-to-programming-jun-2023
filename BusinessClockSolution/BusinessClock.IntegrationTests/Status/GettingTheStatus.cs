@@ -1,4 +1,5 @@
-﻿using Alba;
+﻿
+using Alba;
 using BusinessClockApi.Models;
 using System.Net;
 
@@ -11,17 +12,17 @@ public class GettingTheStatus
     {
         var host = await AlbaHost.For<Program>();
 
-        var response = await host.Scenario(async api =>
+       var response = await host.Scenario(api =>
         {
             api.Get.Url("/status");
             api.StatusCodeShouldBeOk();
         });
 
-        Assert.NotNull(response);
-        GetStatusResponse responseMessage = response.ReadAsJson<GetStatusResponse>();
+        Assert.NotNull(response); // did we get something back?
+        GetStatusResponse? responseMessage = response.ReadAsJson<GetStatusResponse>();
         Assert.NotNull(responseMessage);
         Assert.True(responseMessage.Open);
-        Assert.Null(responseMessage.OpenAt);
+        Assert.Null(responseMessage.OpensAt);
     }
 
     [Fact]
@@ -29,16 +30,16 @@ public class GettingTheStatus
     {
         var host = await AlbaHost.For<Program>();
 
-        var response = await host.Scenario(async api =>
+        var response = await host.Scenario(api =>
         {
             api.Get.Url("/status");
             api.StatusCodeShouldBeOk();
         });
 
-        Assert.NotNull(response);
-        GetStatusResponse responseMessage = response.ReadAsJson<GetStatusResponse>();
+        Assert.NotNull(response); // did we get something back?
+        GetStatusResponse? responseMessage = response.ReadAsJson<GetStatusResponse>();
         Assert.NotNull(responseMessage);
         Assert.False(responseMessage.Open);
-        Assert.NotNull(responseMessage.OpenAt);
+        Assert.NotNull(responseMessage.OpensAt);
     }
 }

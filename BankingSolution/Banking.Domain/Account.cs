@@ -1,25 +1,37 @@
-﻿namespace Banking.Domain
+﻿namespace Banking.Domain;
+
+public class Account
 {
-    public class Account
+    // This is tight coupling! We are create a NEW instance of System.Decimal
+    private decimal _balance = 5000; // Fields class level variable
+    private ICanCalculateBonuses _bonusCalculator;
+
+    public Account(ICanCalculateBonuses bonusCalculator)
     {
-        private decimal _balance;
-        public void Deposit(decimal ammountToDeposit)
-        {
-            _balance += ammountToDeposit;
-        }
+        _bonusCalculator = bonusCalculator;
+    }
 
-        public decimal GetBalance()
-        {
-            return 5000;
-        }
+    public void Deposit(decimal amountToDeposit)
+    {
+        
+       decimal bonus = _bonusCalculator.CalculateBonusForDepositOn(_balance, amountToDeposit);
 
-        public void Withdraw(decimal amountToWithdraw)
+        _balance += amountToDeposit + bonus;
+    }
+
+   
+
+    public decimal GetBalance()
+    {
+        return _balance; // "Sliming"
+    }
+
+    public void Withdraw(decimal amountToWithdraw)
+    {
+        if(amountToWithdraw > _balance)
         {
-            if(amountToWithdraw > _balance)
-            {
-                return;
-            }
-            _balance -= amountToWithdraw;
+            throw new OverdraftException();
         }
+       _balance -= amountToWithdraw;
     }
 }
